@@ -49,3 +49,21 @@ branch=unknown
 repo_root=D:\SANDIPAN NAYEK\projects\hacks\hackerrank-orchestrate-september26-main
 worktree=main
 parent_agent=none
+
+## [2026-09-13T17:10:35+05:30] Fix DataLoader Filtering Bug
+
+User Prompt (verbatim, secrets redacted):
+I reviewed code/DataLoader.py and spotted a critical bug in Step 5 where we filter messages and images... Please update code/DataLoader.py with these fixes... Log this bug fix in log.txt...
+
+Agent Response Summary:
+Updated the relational join for messages and images in DataLoader.py to include user_id and related_event_id. This ensures we don't drop event-linked receipts or cancellation messages.
+
+Actions:
+* Edited code/DataLoader.py
+
+Context:
+tool=Antigravity
+branch=main
+repo_root=d:\SANDIPAN NAYEK\projects\hacks\hackerrank-orchestrate-september26-main
+worktree=main
+parent_agent=none

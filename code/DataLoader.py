@@ -63,12 +63,30 @@ class DataLoader:
         options_df = self.data.get('request_payment_options')
         payment_options = options_df[options_df['request_id'] == request_id].copy() if options_df is not None else pd.DataFrame()
         
-        # 5. Get Messages and Images matching request_id
-        messages_df = self.data.get('messages')
-        messages = messages_df[messages_df['request_id'] == request_id].copy() if messages_df is not None else pd.DataFrame()
+        # 5. Get Messages and Images matching request_id, user_id, or related_event_id
+        event_ids = user_events['event_id'].tolist() if not user_events.empty else []
         
+        messages_df = self.data.get('messages')
+        if messages_df is not None and not messages_df.empty:
+            mask = (
+                (messages_df.get('request_id') == request_id) |
+                (messages_df.get('user_id') == user_id) |
+                (messages_df.get('related_event_id').isin(event_ids))
+            )
+            messages = messages_df[mask].copy()
+        else:
+            messages = pd.DataFrame()
+            
         images_df = self.data.get('images')
-        images = images_df[images_df['request_id'] == request_id].copy() if images_df is not None else pd.DataFrame()
+        if images_df is not None and not images_df.empty:
+            mask = (
+                (images_df.get('request_id') == request_id) |
+                (images_df.get('user_id') == user_id) |
+                (images_df.get('related_event_id').isin(event_ids))
+            )
+            images = images_df[mask].copy()
+        else:
+            images = pd.DataFrame()
         
         # 6. Normalize Currencies in Financial Events
         normalized_events = []
